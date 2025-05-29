@@ -12,7 +12,7 @@
   </head>
   <body style="margin : 0px; overflow: hidden;"">
     <!-- Scene chính -->
-    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;"  vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;">
       <!-- Thêm các entity 3D ở đây 
       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>-->
@@ -29,7 +29,7 @@
      
       <a-marker-camera preset='hiro'></a-marker-camera>
       
-      <a-entity id="HollyCatEntity" gltf-model="#HollyCat" animation-mixer></a-entity>
+      <a-entity id="HollyCatEntity" scale="3 3 3" gltf-model="#HollyCat" animation-mixer></a-entity>
       <a-entity light="type:directional;intensity:1.5" position="1 1 1"></a-entity>
       
     </a-scene>
