@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My A-Frame Project</title>
+    <!-- Nhúng A-Frame từ CDN -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <!-- Thư viện mở rộng (ví dụ: AR.js) -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
+   
+  </head>
+  <body style="margin : 0px; overflow: hidden;"">
+    <!-- Scene chính -->
+    <a-scene embedded arjs>
+      <!-- Thêm các entity 3D ở đây 
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>-->
+     
+     
+      
+      <a-asset>
+
+       <a-asset-item id="HollyCat" src="Assets/HollyCatWeb.gltf"></a-asset-item>
+       <img id="HollyCatTex" src="Assets/HollyCatTex-Eternal.png"></img>
+       <img id="GradientTex" src="Assets/threeTone.jpg"></img>
+       
+      </a-asset>
+     
+      <a-marker-camera preset='hiro'></a-marker-camera>
+      
+      <a-entity id="HollyCatEntity" gltf-model="#HollyCat" animation-mixer></a-entity>
+      <a-entity light="type:directional;intensity:1.5" position="1 1 1"></a-entity>
+      
+    </a-scene>
+     <script>
+      var scene = document.querySelector('a-scene');
+      var ModelTex= document.querySelector('#HollyCatTex');
+      var GradientTex= document.querySelector('#GradientTex');
+     
+      if (scene.hasLoaded) {
+        run();
+      } else {
+        scene.addEventListener('loaded', run);
+      }
+
+      function run () {
+         const Model= document.querySelector('#HollyCatEntity');
+         
+
+          Model.addEventListener("model-loaded",(e)=>{
+              //prompt("load xong");
+              ReplaceMateial(e);
+             
+             
+          });
+      }
+      
+      function ReplaceMateial(e){
+       // prompt("thay mat");
+        const model = e.detail.model; 
+        model.traverse((node)=>{
+          if(node.isMesh){
+            const toonMat = new THREE.MeshToonMaterial({color:new THREE.Color("#fff"),wireframe:false,map:new THREE.Texture(ModelTex),gradientMap:new THREE.Texture(GradientTex)});
+            node.material = toonMat;
+            node.material.map.flipY = false;
+            node.material.map.needsUpdate = true;
+            node.material.gradientMap.needsUpdate = true;
+            node.material.gradientMap.minFilter =  node.material.gradientMap.magFilter = THREE.NearestFilter;
+            
+          }
+
+        });
+      }
+
+     
+
+    </script>
+  </body>
+</html>
